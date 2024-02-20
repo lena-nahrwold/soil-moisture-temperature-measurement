@@ -5,7 +5,7 @@ from datetime import datetime
 
 def read_soil_types():
     soil_types = {}
-    with open("soil_types.txt", "r") as f:
+    with open("./code/soil_types.txt", "r") as f:
         for line in f:
             abbrv, name = line.strip().split(":")
             soil_types[abbrv.strip()] = name.strip()
