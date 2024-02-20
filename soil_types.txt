@@ -1,0 +1,12 @@
+PS: Peat soil
+SS: Sandy soil
+LS: Loamy sand
+SC: Silty clay
+CS: Clay soil
+LS: Loam soil
+CH: Chalky soil
+PT: Peaty soil
+SL: Sandy loam soil
+CL: Clay loam soil
+ST: Silty soil
+HPF: Ficus house plant soil
