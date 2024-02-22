@@ -53,7 +53,7 @@ def read_soil_types():
 			soil_types[abbreviation] = soil_type
 	return soil_types
 		
-def combine_csv_data(start_month, start_year):
+def combine_csv_data(start_month, start_day, start_year):
 	# List to store DataFrames from selected CSV files
 	dfs = []
 	data_path = f"./data/{abbrv}"
@@ -62,17 +62,18 @@ def combine_csv_data(start_month, start_year):
 	csv_files = [file for file in os.listdir(data_path) if file.endswith(".csv")]
 	# Loop through each file in the directory
 	for file_name in csv_files:
-		# Extract month and year from file name
-		file_month, file_year = extract_month_year(file_name)
-		# Check if file falls within the specified range
+		# Extract month, day and year from file name
+		file_month, file_day, file_year = extract_date(file_name)
+		# Check if file falls within the specified time
 		if (start_year < file_year) or \
-			 (start_year == file_year and start_month <= file_month):
+			 (start_year == file_year and start_month < file_month) or \
+			 (start_year == file_year and start_month == file_month and start_day <= file_day):
 				file_path = os.path.join(data_path, file_name)
 				# Read data from CSV into a DataFrame
 				df = pd.read_csv(file_path)
 				# Append DataFrame to the list
 				dfs.append(df)
-				print(f"Include data from {file_year}-{file_month}.")
+				print(f"Include data from {file_year}-{file_month}-{file_day}.")
 	
 	if dfs:
 		# Combine DataFrames into a single DataFrame
@@ -82,12 +83,12 @@ def combine_csv_data(start_month, start_year):
 		print("No CSV files found.")
 		return None
 
-def extract_month_year(file_name):
+def extract_date(file_name):
 	# Assuming file name format is "data_YYYY-MM-DD_HH-MM-SS.csv"
 	parts = file_name.split("_")
 	date_part = parts[1].split(".")[0]
-	year, month, _ = map(int, date_part.split("-"))
-	return month, year
+	year, month, day = map(int, date_part.split("-"))
+	return month, day, year
  
 def create_plots(df, output_directory):
 	# Create subplots with 2 rows and 2 columns
@@ -159,18 +160,19 @@ def process_data(csv_file_path):
 	if generate_plots == "y":
 		print("Please enter the start date for selecting CSV files:")
 		start_month = int(input("Start month (1-12): "))
+		start_day = int(input("Start day (1-31): "))
 		start_year = int(input("Start year: "))
 		# Combine CSV data into a single DataFrame
-		combined_df = combine_csv_data(start_month, start_year)
+		combined_df = combine_csv_data(start_month, start_day, start_year)
 		if combined_df is not None:
 				# Create new folder
-				new_folder_path = f"./plots/{abbrv}/plot_{start_year}-{start_month}_{timestamp}"
+				new_folder_path = f"./plots/{abbrv}/plot_{start_year}-{start_month}-{start_day}_{datetime.now().strftime('%Y-%m-%d')}"
 				os.makedirs(new_folder_path, exist_ok=True)
 				
 				# Create plots from combined DataFrame and save to output directory
 				create_plots(combined_df, new_folder_path)
 	elif generate_plots == "n":
-			print("Plot generation for data in time range skipped.")
+			print("Plot generation with previously measured data skipped.")
 	else:
 			print("Invalid input. Please enter 'y' or 'n'.")
 
