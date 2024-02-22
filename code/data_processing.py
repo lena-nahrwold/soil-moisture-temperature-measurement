@@ -141,7 +141,7 @@ def process_data(csv_file_path):
 	create_plots(df, f"./plots/{abbrv}")
 	
 	# Store data to CSV file on your local machine
-	filename = f"data/{abbrv}/data_{timestamp}.csv"
+	filename = f"data/{abbrv}/data_{abbrv}_{timestamp}.csv"
 	df.to_csv(filename, index=False)
 	if os.path.exists(filename):
 		print(f"Saved CSV data to '{filename}'.")
@@ -166,7 +166,7 @@ def process_data(csv_file_path):
 		combined_df = combine_csv_data(start_month, start_day, start_year)
 		if combined_df is not None:
 				# Create new folder
-				new_folder_path = f"./plots/{abbrv}/plot_{start_year}-{start_month}-{start_day}_{datetime.now().strftime('%Y-%m-%d')}"
+				new_folder_path = f"./plots/{abbrv}/plot_{abbrv}_{start_year}-{start_month}-{start_day}_{datetime.now().strftime('%Y-%m-%d')}"
 				os.makedirs(new_folder_path, exist_ok=True)
 				
 				# Create plots from combined DataFrame and save to output directory
@@ -181,7 +181,7 @@ def main():
 	# Define path to directory where micro SD card is mounted
 	sd_card_path = "./data/" # /path/to/your/sdcard "/media/lena/9016-4EF8"
 	# Define the filename to process
-	filename_to_process = "DATA.CSV" # example_pt_data.csv
+	filename_to_process = "DATA2.csv" # example_pt_data.csv
 	# Check if micro SD card is plugged in
 	if os.path.exists(sd_card_path):
 		# Check if the file exists on the micro SD card
