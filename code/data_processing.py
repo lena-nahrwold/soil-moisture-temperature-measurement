@@ -101,7 +101,6 @@ def create_plots(df, output_directory):
 	axs[0, 0].set_xlabel("Temperature (C)")
 	axs[0, 0].set_ylabel("Soil Moisture (%)")
 	axs[0, 0].set_title("Temperature vs Soil Moisture")
-	
 	# Humidity vs Soil Moisture
 	axs[0, 1].scatter(df["humidity_p"].values, df["soil_moisture_p"].values, color="orange", alpha=0.1)
 	axs[0, 1].set_xlabel("Humidity (%)")
@@ -181,7 +180,7 @@ def main():
 	# Define path to directory where micro SD card is mounted
 	sd_card_path = "./data/" # /path/to/your/sdcard "/media/lena/9016-4EF8"
 	# Define the filename to process
-	filename_to_process = "DATA2.csv" # example_pt_data.csv
+	filename_to_process = "DATA.CSV" # example_pt_data.csv
 	# Check if micro SD card is plugged in
 	if os.path.exists(sd_card_path):
 		# Check if the file exists on the micro SD card

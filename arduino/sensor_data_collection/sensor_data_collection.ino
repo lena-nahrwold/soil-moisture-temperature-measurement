@@ -67,7 +67,7 @@ void loop(){
     digitalWrite(POWER_PIN, LOW);   // Turn the sensor OFF
     file.print(m);
     file.print(",");
-    p = map(m, air, water, 0, 100); // Calculate soil moisture percentage
+    p = (1-((m-water)/(air-water)))*100; // Calculate soil moisture percentage, map(m, air, water, 0, 100) not for float 
     if (p >= 100) {
       file.print(100);
     } else if (p <= 0) {

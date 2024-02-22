@@ -89,7 +89,7 @@ if __name__ == "__main__":
 	# Fill selected_soil_types array based on user input
 	selected_soil_types = []
 	while not selected_soil_types:
-		selected_soil_indices = input("Enter the indices or abbrevations of soil types to compare (comma-separated): ")
+		selected_soil_indices = input("Enter the indices or abbrevations of soil types to compare (comma-separated): ").upper()
 		selected_soil_indices = [index.strip() for index in selected_soil_indices.split(",")]
 		for index in selected_soil_indices:
 			try:
