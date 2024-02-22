@@ -2,14 +2,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
-
-def read_soil_types():
-    soil_types = {}
-    with open("./code/soil_types.txt", "r") as f:
-        for line in f:
-            abbrv, name = line.strip().split(":")
-            soil_types[abbrv.strip()] = name.strip()
-    return soil_types
+from data_processing import read_soil_types
 
 def read_soil_data(soil_type):
     # Read data for the specified soil type
@@ -24,9 +17,11 @@ def read_soil_data(soil_type):
     if dfs:
         return pd.concat(dfs, ignore_index=True)
     else:
-        return None
+        print("No CSV files found.")
+		return None
 
 def generate_comparison_plots(selected_soil_types):
+    # Combine CSV data for all selected soil types in one dataframe
     dfs = []
     for soil_type in selected_soil_types:
         df = read_soil_data(soil_type)
@@ -39,32 +34,38 @@ def generate_comparison_plots(selected_soil_types):
         fig, axs = plt.subplots(2, 2, figsize=(12, 8))
         fig.suptitle(f"Soil Moisture, Humidity, and Temperature of {', '.join([soil_types[soil_type] for soil_type in selected_soil_types])}")
 
+        # Change settings here for plot layout
         colors = ['blue', 'orange', 'green', 'red', 'purple', 'brown', 'pink', 'gray', 'olive', 'cyan']
         for idx, soil_type in enumerate(selected_soil_types):
             sub_df = combined_df[combined_df["soil_type"] == soil_type]
-            axs[0, 0].scatter(sub_df["temperature_c"], sub_df["soil_moisture_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)} measurements)", color=colors[idx], s=30)
+
+            # Temperature vs Soil Moisture
+            axs[0, 0].scatter(sub_df["temperature_c"], sub_df["soil_moisture_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
             axs[0, 0].set_xlabel("Temperature (C)")
             axs[0, 0].set_ylabel("Soil Moisture (%)")
             axs[0, 0].set_title("Temperature vs Soil Moisture")
-            axs[0, 0].legend()
+            axs[0, 0].legend(fontsize='small')
 
-            axs[0, 1].scatter(sub_df["humidity_p"], sub_df["soil_moisture_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)} measurements)", color=colors[idx], s=30)
+            # Humidity vs Soil Moisture
+            axs[0, 1].scatter(sub_df["humidity_p"], sub_df["soil_moisture_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
             axs[0, 1].set_xlabel("Humidity (%)")
             axs[0, 1].set_ylabel("Soil Moisture (%)")
             axs[0, 1].set_title("Humidity vs Soil Moisture")
-            axs[0, 1].legend()
+            axs[0, 1].legend(fontsize='small')
 
-            axs[1, 0].scatter(sub_df["temperature_c"], sub_df["humidity_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)} measurements)", color=colors[idx], s=30)
+            # Temperature vs Humidity
+            axs[1, 0].scatter(sub_df["temperature_c"], sub_df["humidity_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
             axs[1, 0].set_xlabel("Temperature (C)")
             axs[1, 0].set_ylabel("Humidity (%)")
             axs[1, 0].set_title("Temperature vs Humidity")
-            axs[1, 0].legend()
+            axs[1, 0].legend(fontsize='small')
 
-            axs[1, 1].scatter(sub_df["temperature_c"], sub_df["heat_index_c"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)} measurements)", color=colors[idx], s=30)
+            # Temperature vs Head Index
+            axs[1, 1].scatter(sub_df["temperature_c"], sub_df["heat_index_c"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
             axs[1, 1].set_xlabel("Temperature (C)")
             axs[1, 1].set_ylabel("Heat Index (C)")
             axs[1, 1].set_title("Temperature vs Heat Index")
-            axs[1, 1].legend()
+            axs[1, 1].legend(fontsize='small')
 
         plt.tight_layout()
         timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -78,11 +79,14 @@ def generate_comparison_plots(selected_soil_types):
         print("No data found.")
 
 if __name__ == "__main__":
+    # Show avilable soil types
     soil_types = read_soil_types()
     print("Available soil types:")
     for idx, (abbrv, name) in enumerate(soil_types.items(), start=1):
         print(f"{idx}. {name} ({abbrv})")
 
+    # Prompt user to select soil types to compare
+    # Fill selected_soil_types array based on user input
     selected_soil_types = []
     while not selected_soil_types:
         selected_soil_indices = input("Enter the indices or abbrevations of soil types to compare (comma-separated): ")
@@ -95,8 +99,9 @@ if __name__ == "__main__":
                 if index in soil_types:
                     selected_soil_types.append(index)
                 else:
-                    print("Invalid input. Please enter valid indices or soil type names.")
+                    print("Invalid input. Please enter valid indices or soil type abbrevations.")
                     break
 
+    # Generate the plots comparing the selected soil types
     generate_comparison_plots(selected_soil_types)
 
