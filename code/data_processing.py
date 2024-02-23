@@ -186,7 +186,7 @@ def main():
 	# Define path to directory where micro SD card is mounted
 	sd_card_path = "./data/" # /path/to/your/sdcard 
 	# Define the filename to process
-	filename_to_process = "example_pt_data.csv" # "DATA.CSV"
+	filename_to_process = "example_ps_data.csv" # "DATA.CSV"
 	# Check if micro SD card is plugged in
 	if os.path.exists(sd_card_path):
 		# Check if the file exists on the micro SD card
