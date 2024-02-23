@@ -9,3 +9,4 @@ SL: Sandy loam soil
 CL: Clay loam soil
 ST: Silty soil
 HPF: Ficus house plant soil
+HPM: Mispel house plant soil
