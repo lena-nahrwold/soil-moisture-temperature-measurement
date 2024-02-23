@@ -40,28 +40,28 @@ def generate_comparison_plots(selected_soil_types):
 			sub_df = combined_df[combined_df["soil_type"] == soil_type]
 
 			# Temperature vs Soil Moisture
-			axs[0, 0].scatter(sub_df["temperature_c"], sub_df["soil_moisture_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
+			axs[0, 0].scatter(sub_df["temperature_c"], sub_df["soil_moisture_p"], alpha=0.25, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
 			axs[0, 0].set_xlabel("Temperature (C)")
 			axs[0, 0].set_ylabel("Soil Moisture (%)")
 			axs[0, 0].set_title("Temperature vs Soil Moisture")
 			axs[0, 0].legend(fontsize='small')
 
 			# Humidity vs Soil Moisture
-			axs[0, 1].scatter(sub_df["humidity_p"], sub_df["soil_moisture_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
+			axs[0, 1].scatter(sub_df["humidity_p"], sub_df["soil_moisture_p"], alpha=0.25, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
 			axs[0, 1].set_xlabel("Humidity (%)")
 			axs[0, 1].set_ylabel("Soil Moisture (%)")
 			axs[0, 1].set_title("Humidity vs Soil Moisture")
 			axs[0, 1].legend(fontsize='small')
 
 			# Temperature vs Humidity
-			axs[1, 0].scatter(sub_df["temperature_c"], sub_df["humidity_p"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
+			axs[1, 0].scatter(sub_df["temperature_c"], sub_df["humidity_p"], alpha=0.25, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
 			axs[1, 0].set_xlabel("Temperature (C)")
 			axs[1, 0].set_ylabel("Humidity (%)")
 			axs[1, 0].set_title("Temperature vs Humidity")
 			axs[1, 0].legend(fontsize='small')
 
 			# Temperature vs Head Index
-			axs[1, 1].scatter(sub_df["temperature_c"], sub_df["heat_index_c"], alpha=0.1, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
+			axs[1, 1].scatter(sub_df["temperature_c"], sub_df["heat_index_c"], alpha=0.25, label=f"{soil_types[soil_type]} ({len(sub_df)})", color=colors[idx], s=30)
 			axs[1, 1].set_xlabel("Temperature (C)")
 			axs[1, 1].set_ylabel("Heat Index (C)")
 			axs[1, 1].set_title("Temperature vs Heat Index")
